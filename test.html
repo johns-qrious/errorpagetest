@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error Page</title>
+</head>
+<body>
+
+<script>
+ // Check 1: Check if the iframe itself loads successfully
+  function checkIframe() {
+    return new Promise((resolve, reject) => {
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://comms.iag.co.nz/forms/8kz7217d8dd4fc8113fqj4g56x053mlmgm1ytrv3j0q0kprjq8fdg1p0yk0j';
+
+      iframe.style.width = '100%';          // Set iframe width to 100%
+      iframe.style.height = '100vh';        // Set iframe height to 100% of viewport height
+      iframe.style.border = 'none';         // Remove borders
+      iframe.style.overflow = 'hidden';     // Hide scrollbar
+
+      iframe.onload = () => resolve();
+      iframe.onerror = () => reject('Iframe failed to load');
+
+      document.body.appendChild(iframe);
+    });
+  }
+
+// Check 2: Check if the specific asset is available
+function checkAsset() {
+  const assetUrl = 'https://assdssdsets.ubiquity.co.nz/Site/js/custom/google-address-finder/google-maps-api-1.1.js';
+
+  return fetch(assetUrl, { mode: 'no-cors' })
+    .then(response => {
+      // Check if the request was successful (status 0 indicates success in no-cors mode)
+      if (response.ok || response.status === 0) {
+        return Promise.resolve();
+      } else {
+        throw new Error(`Asset check failed for ${assetUrl}`);
+      }
+    });
+}
+
+
+
+  // Perform both checks
+  Promise.all([checkIframe(), checkAsset()])
+    .then(() => {
+      // Both checks passed, do nothing
+      console.log('Both checks passed');
+    })
+    .catch(error => {
+      // At least one check failed, redirect to 404 page
+      console.error('One or more checks failed:', error);
+      window.location.href = 'https://www.iag.co.nz/404'; // Replace with the actual path to your 404 page
+    });
+</script>
+
+</body>
+</html>
