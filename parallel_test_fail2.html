@@ -20,7 +20,7 @@
       iframe.style.overflow = 'hidden';
       document.body.appendChild(iframe);
 
-    // Check 1: Check if the iframe url is available
+    // Check 1: Check if the UbiQuity iFrame URL is responding
     function checkiFrameURL() {
 
     return fetch(iframeUrl, { mode: 'no-cors' })
@@ -34,8 +34,8 @@
   }
 
 
-  // Check 2: Check if the specific asset is available
-  function checkAsset() {
+  // Check 2: Check if the UbiQuity assets server is responding
+  function checkUbiqAssetServer() {
     const assetUrl = 'https://assets.ubiquity.co.nz/Site/js/custom/google-address-finder/google-maps-api-1.1.js';
 
     return fetch(assetUrl, { mode: 'no-cors' })
@@ -48,11 +48,11 @@
       });
   }
 
-  // Check 3: Check if a specific URL is responding
-  function checkUrl() {
-    const urlToCheck = 'https://engagemedia.azureedge.net/files/file/OIpV2zXh-UK_9Ajba1vJvQ';
+  // Check 3: Check if the Azure CDN is responding
+  function checkAzureCDN() {
+    const cdnFile = 'https://engagemedia.azureedge.net/files/file/OIpV2zXh-UK_9Ajba1vJvQ';
 
-    return fetch(urlToCheck, { mode: 'no-cors' })
+    return fetch(cdnFile, { mode: 'no-cors' })
       .then(response => {
         if (response.ok || response.status === 0) {
           return Promise.resolve();
@@ -65,8 +65,8 @@
   // Perform all three checks
     Promise.all([
     checkiFrameURL(),
-    checkAsset(),
-    checkUrl()
+    checkUbiqAssetServer(),
+    checkAzureCDN()
     ]).then(() => {
     console.log('All checks passed');
     }).catch(error => {
