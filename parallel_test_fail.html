@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Page</title>
+</head>
+<body>
+
+<script>
+  // Define iframe URL as a variable
+  const iframeUrl = 'https://comms.iag.co.nz/forms/8kz7217d8dd4fc8113fqj4g56x053mlmgm1ytrv3j0q0kprjq8fdg1p0yk0j';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = iframeUrl;
+
+      iframe.style.width = '100%';
+      iframe.style.height = '100vh';
+      iframe.style.border = 'none';
+      iframe.style.overflow = 'hidden';
+      document.body.appendChild(iframe);
+
+    // Check 1: Check if the iframe url is available
+    function checkiFrameURL() {
+
+    return fetch(iframeUrl, { mode: 'no-cors' })
+      .then(response => {
+        if (response.ok || response.status === 0) {
+          return Promise.resolve();
+        } else {
+          throw new Error(`Asset check failed for ${iframeUrl}`);
+        }
+      });
+  }
+
+
+  // Check 2: Check if the specific asset is available
+  function checkAsset() {
+    const assetUrl = 'https://assets.ubiquity.co.nz/Site/js/custom/google-address-finder/google-maps-api-1.1.js';
+
+    return fetch(assetUrl, { mode: 'no-cors' })
+      .then(response => {
+        if (response.ok || response.status === 0) {
+          return Promise.resolve();
+        } else {
+          throw new Error(`Asset check failed for ${assetUrl}`);
+        }
+      });
+  }
+
+  // Check 3: Check if a specific URL is responding
+  function checkUrl() {
+    const urlToCheck = 'https://engagemedia.azureedge.net/files/file/OIpV2zXh-UK_9Ajba1vJvQ';
+
+    return fetch(urlToCheck, { mode: 'no-cors' })
+      .then(response => {
+        if (response.ok || response.status === 0) {
+          return Promise.resolve();
+        } else {
+          throw new Error(`URL check failed for ${urlToCheck}`);
+        }
+      });
+  }
+
+  // Perform all three checks
+    Promise.all([
+    checkiFrameURL(),
+    checkAsset(),
+    checkUrl()
+    ]).then(() => {
+    console.log('All checks passed');
+    }).catch(error => {
+    console.error('One or more checks failed:', error);
+    window.location.href = 'https://www.iag.co.nz/404';
+    });
+
+</script>
+
+</body>
+</html>
